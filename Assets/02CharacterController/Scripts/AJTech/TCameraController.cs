@@ -45,7 +45,7 @@ public class TCameraController : MonoBehaviour
     void Update()
     {
        
-        camTargetRotation = this.TakeInputRotation();
+        camTargetRotation = FilterInputRotation();
         this.transform.eulerAngles = RotateCam(camTargetRotation);
         Vector3 tempCamCurrentRotation = RotateTop(camCurrentRotation);
        
@@ -62,10 +62,10 @@ public class TCameraController : MonoBehaviour
         this.ShiftCamBehindTop();
         topPreviousRotation = this.robotTop.rotation;
     }
-    Vector3 TakeInputRotation()
+    Vector3 FilterInputRotation()
     {
-        yaw += Input.GetAxisRaw("Mouse X") * mouseSensitivity;
-        pitch -= Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        yaw += input.Horizontal * mouseSensitivity;
+        pitch -= input.Vertical * mouseSensitivity;
         pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
         return new Vector3(pitch, yaw, 0);
     }
